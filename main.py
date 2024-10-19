@@ -2,12 +2,12 @@
 # the open-source pygame library
 # throughout this file
 import pygame
-import constant
+from constants import *
 
 def main():
     print("Starting asteroids!")
-    print("Screen width: 1280")
-    print("Screen height: 720")
+    print(f"Screen width: {SCREEN_WIDTH}")
+    print(f"Screen height: {SCREEN_HEIGHT}")
 
 if __name__ == "__main__":
     main()
