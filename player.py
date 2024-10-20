@@ -2,6 +2,7 @@ import pygame
 from circleshape import CircleShape
 from constants import PLAYER_RADIUS
 from constants import PLAYER_TURN_SPEED
+from constants import PLAYER_SPEED
 
 class Player(CircleShape):
     def __init__(self, x, y):
@@ -13,6 +14,12 @@ class Player(CircleShape):
     
     def rotate(self, dt):
         self.rotation += PLAYER_TURN_SPEED * dt
+    
+    def move(self, dt, forward = True):
+        direction = pygame.Vector2(0, 1).rotate(self.rotation)
+        if not forward:
+            direction = -direction
+        self.position += direction * PLAYER_SPEED * dt
 
     def update(self, dt):
         keys = pygame.key.get_pressed()
@@ -23,6 +30,12 @@ class Player(CircleShape):
         if keys[pygame.K_d]:
             # Rotate right: pass a positive delta time
             self.rotate(dt)
+        if keys[pygame.K_w]:
+            #Move forward: pass a positive delta time
+            self.move(dt, forward = True)
+        if keys[pygame.K_s]:
+            #Move backwards: pass a negative delta time
+            self.move(dt, forward = False)
 
     def triangle(self):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
