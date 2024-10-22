@@ -47,6 +47,17 @@ def main():
                     if new_shot is not None: # Only add the shot  if its not none
                         shots.add(new_shot)
         
+        bullet_hit_leeway = 5
+
+        for shot in shots.copy():
+            for asteroid in asteroids.copy():
+                if asteroid.position.distance_to(shot.position) <= asteroid.radius + shot.radius + bullet_hit_leeway:
+                    shot.kill()  # Remove the bullet
+                    asteroid.kill()  # Remove the asteroid
+                    shots.remove(shot)
+                    asteroids.remove(asteroid)
+                    break
+        
         # Handle continuous key presses
         keys = pygame.key.get_pressed()
 

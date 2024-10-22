@@ -12,8 +12,7 @@ class Shot(CircleShape):
             surface,
             "white",
             (self.position.x, self.position.y),
-            self.radius,
-            2
+            self.radius
         )
     
     def update(self, dt):
