@@ -1,12 +1,13 @@
 import pygame
 from circleshape import CircleShape
-from constants import PLAYER_RADIUS, PLAYER_TURN_SPEED, PLAYER_SPEED, PLAYER_SHOOT_SPEED
+from constants import PLAYER_RADIUS, PLAYER_TURN_SPEED, PLAYER_SPEED, PLAYER_SHOOT_SPEED, PLAYER_SHOOT_COOLDOWN
 from shot import Shot
 
 class Player(CircleShape):
     def __init__(self, x, y):
         super().__init__(x, y, PLAYER_RADIUS)
         self.rotation = 0
+        self.shoot_timer = 0
     # Call the parent constructor
     # Set the rotation attribute
     # in the player class
@@ -37,6 +38,8 @@ class Player(CircleShape):
         if keys[pygame.K_SPACE]:
             #Shoot with spacebar
             self.shoot()
+        if self.shoot_timer > 0:
+            self.shoot_timer -= dt
         
 
     def triangle(self):
@@ -56,8 +59,12 @@ class Player(CircleShape):
         )
 
     def shoot(self):
-        new_shot = Shot(self.position.x, self.position.y)
-        direction = pygame.Vector2(0, 1).rotate(self.rotation)
-        velocity = direction * PLAYER_SHOOT_SPEED
-        new_shot.velocity = velocity
-        return new_shot
+        if self.shoot_timer <= 0:
+            new_shot = Shot(self.position.x, self.position.y)
+            direction = pygame.Vector2(0, 1).rotate(self.rotation)
+            velocity = direction * PLAYER_SHOOT_SPEED
+            new_shot.velocity = velocity
+            self.shoot_timer = PLAYER_SHOOT_COOLDOWN
+            return new_shot
+        else: # Can't shoot yet, return none or handle case as needed
+            return None

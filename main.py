@@ -44,7 +44,8 @@ def main():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     new_shot = player.shoot()
-                    shots.add(new_shot)
+                    if new_shot is not None: # Only add the shot  if its not none
+                        shots.add(new_shot)
         
         # Handle continuous key presses
         keys = pygame.key.get_pressed()
