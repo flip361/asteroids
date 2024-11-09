@@ -53,7 +53,7 @@ def main():
             for asteroid in asteroids.copy():
                 if asteroid.position.distance_to(shot.position) <= asteroid.radius + shot.radius + bullet_hit_leeway:
                     shot.kill()  # Remove the bullet
-                    asteroid.kill()  # Remove the asteroid
+                    asteroid.split()  # Remove the asteroid
                     shots.remove(shot)
                     asteroids.remove(asteroid)
                     break
